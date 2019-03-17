@@ -1,0 +1,444 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cmath>     
+#include <cstdlib>     
+#include <ctime>
+using namespace std;
+
+class Person 
+{
+   public:
+
+    string name;
+    string Job;
+    int Str = 0;
+    int Dex = 0;
+    int Int = 0;
+    int Chr = 0;
+    int Con = 0;
+    int Wis = 0;
+    int Health = 0;
+    int Magic_Points = 0;
+    int XP = 0;
+    int Level = 0;
+
+};
+
+//------------------------------------------------------------------------------
+
+class enamy
+{
+    public:
+    int Health = 20;
+    int Str = 5;
+    int Def = 2;
+};
+//-----------------------------------------------------------
+int Roll20(){
+    int dice = (rand() % 20);
+    return dice + 1;
+    }
+//----------------------------------------------------------
+
+int Roll6(){
+    int dice = (rand() % 6);
+    return dice + 1;
+//---------------------------------------------------------------------
+}
+
+int Roll4(){
+    int dice = (rand() % 4);
+    return dice + 1;
+
+}
+
+//----------------------------------------------------------------------
+Person StartGame(){
+
+Person player1;
+int Health , Magic_Points;
+int XP, Level;
+ int Str,Dex,Int,Chr,Con,Wis;
+vector <int>stats;
+string person, gender;
+int JobSelect = 0, sure = 0;
+string job = "";
+bool y = true;
+bool x = true;
+
+cout << "what is your name?"<< endl;
+cin >> person;
+cout << "what is your gender?" << endl;
+cin >> gender;
+cout << "WAIT . . .  I forgot I dont care about what gender you are" << endl <<endl;
+
+
+ while (y)
+ {
+    cout << "choose a job enter"<< endl << "1 = fighter, Stronge and dexterist." << endl << "2 = ranger, dexterist, and wise" << endl << "3 = wizard, smart and wise"<< endl;
+        
+       
+        cin >> JobSelect;
+        if (JobSelect == 1 || JobSelect == 2 || JobSelect == 3)
+        {
+            if (JobSelect == 1)
+            {
+                cout << "you are now a warrior, they fight with a sword and shield" << endl;
+                job = "Warrior";                               
+            }
+            else if (JobSelect == 2)
+            {
+                cout << "you are now a Ranger, they fight with bows and daggers" << endl;
+                job = "Ranger";
+            
+            }
+            else if (JobSelect == 3)
+            {
+                cout << "you are now a Wizard, they fight with magic" << endl;
+                job = "wizard";
+            }
+            else
+            {
+                cout << "please enter a valid input";
+            }                       
+        }
+    
+        cout << "are you sure that you want to be a " << job << endl << "1-yes" << endl << "2-no"<<endl;
+        cin >> sure;
+        if(sure == 1)
+        {
+            cout << "congrats you are now a " << job << endl;
+            y = false;  
+        }
+       
+    
+}
+
+int st;
+
+for(int s = 0 ; s <= 6 ; s++)
+{
+    stats.push_back( Roll6()*3 );
+}
+
+cout << "the states that were rolled are :" << endl;
+cout << "Str = " << stats[0] << endl;
+cout << "dex = " << stats[1] << endl;
+cout << "int = " << stats[2] << endl;
+cout << "cha = " << stats[3] << endl;
+cout << "con = " << stats[4] << endl;
+cout << "wis = " << stats[5] << endl; 
+ 
+    player1.Str = stats[0];
+    player1.Dex = stats[1];
+    player1.Int = stats[2];
+    player1.Chr = stats[3];
+    player1.Con = stats[4];
+    player1.Wis = stats[5];
+    player1.Health= player1.Con*2;
+    player1.Magic_Points = 0;
+    player1.XP = 0;
+    player1.Level= 0;
+
+
+
+
+
+
+if(job == "fighter")
+    {
+        player1.Str = player1.Level + (player1.Str + 1);  //STRENGTH
+        player1.Con = player1.Level + (player1.Con + 1);
+        player1.Int = player1.Level + (player1.Int - 1);
+        player1.Wis = player1.Level + (player1.Wis - 1);
+    }
+    else if(job == "Ranger")
+    {
+        player1.Dex = player1.Level + (player1.Dex + 1);
+        player1.Con = player1.Level + (player1.Con + 1);
+        player1.Wis = player1.Level + (player1.Wis - 1);
+        player1.Str = player1.Level + (player1.Str - 1);
+    }
+    else if(job == "Wizard")
+    {
+        player1.Wis = player1.Level + (player1.Wis + 1);
+        player1.Int = player1.Level + (player1.Int + 1);
+        player1.Str = player1.Level + (player1.Str - 1);
+        player1.Con = player1.Level + (player1.Con - 1);
+    }
+
+Health = Con * 2;
+Magic_Points = Int * 2;
+
+
+
+
+return player1;
+}
+//----------------------------------------------------------------
+
+bool Random_Enconter()
+{
+    int chance_ran;
+    chance_ran = Roll20();
+        if(chance_ran <= 15)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+
+}
+
+//------------------------------------------------------------------------------------------------------------------------
+void travel(string name, Person &P)
+{
+    string where_to;
+    cout << "Were would you like to travel to " << name << "?" << endl;
+    cin >> where_to;
+    if (Roll20() >= 8)
+    {
+        cout << "\nyou succsesfuly travel to " << where_to << endl;
+        
+    }
+    else if (Roll20() < 8)
+    {
+        if (Roll6() >= 2)
+        {
+            P.Health -= 2;
+            cout << "you lost 2 HP, Now your current HP is :" << P.Health << "  but you do make it to your destination" << endl;
+            
+
+        }
+        else if (Roll6() < 2 )
+        {
+            if(Roll20() <= 5)
+            {
+                cout << "you tripped on a rock and died" << endl;
+                exit(0);
+             
+            }
+            else if (Roll20() > 5 && Roll20() <= 10)
+            {
+                cout << "you died by an ''accidentally'' getting stabbed" << endl;
+               exit(0);
+               
+            }
+            else if (Roll20() > 10 && Roll20() <= 15)
+            {
+                cout << "you died, trying to eat a puffer fish" << endl;
+               exit(0);
+               
+            }
+            else
+            {
+                cout << "you tripped into a worm whole and exploded in the vacuume of space" << endl;
+             exit(0);
+                
+            }
+        
+        }
+
+    }
+}
+
+//------------------------------------------------------------------------------------------------
+int warrior()
+{
+     Person P;
+    int x, dmg;
+enamy e;
+cout << "what do you want to do?" << endl << "1 - slash" << endl << "2-heal" << endl;
+cin >> x;
+
+if(x == 1)
+    {
+       dmg = P.Str*Roll4()+2;
+    }
+else if (x == 2)
+    {
+        dmg = -P.Con*Roll4();
+    }
+else
+    {
+        dmg = 0; 
+    }
+
+if (dmg > 0)
+     {
+         return dmg - e.Def;
+         cout << "enemy HP = " << e.Health << endl;
+        
+     }
+     
+if(dmg < 0 )
+     {
+          P.Health -= dmg; 
+         cout << "you gained " << -x << endl;
+        
+     }
+    
+else
+     {
+         return 0;
+         cout << "you missed" << endl;
+        
+     }
+}
+
+//-------------------------------------------------------------------------------------------
+int Ranger()
+{
+   Person P;
+    int x, dmg;
+enamy e;
+cout << "what do you want to do?" << endl << "1 - shoot" << endl << "2-stab" << endl;
+cin >> x;
+if(x == 1)
+{
+   dmg = P.Dex*Roll4()+1;
+}
+else if (x == 2)
+{
+    dmg = P.Con*Roll4()+1;
+}
+else
+{
+    dmg = 0;
+}  
+
+     
+     if (x > 0)
+     {
+         return dmg - e.Def;
+         cout << "enemy HP = " << e.Health << endl;
+    
+     }
+     
+    
+     else
+     {
+         return 0;
+         cout << "you missed" << endl;
+     }
+ 
+}
+
+//--------------------------------------------------------------------------------------------------
+int Wizard()
+{
+ Person P;
+    int x , dmg;
+enamy e;
+cout << "what do you want to do?" << endl << "1 - magic  missile" << endl << "2- heal" << endl;
+cin >> x;
+if(x == 1)
+{
+   return P.Int*Roll4();
+}
+else if (x == 2)
+{
+    return P.Wis*Roll4()+2;
+}
+else
+{
+    dmg = 0;
+}  
+
+
+
+     if (dmg > 0)
+     {
+      return dmg - e.Def;
+         cout << "enemy HP = " << e.Health << endl;
+     }
+     
+    else if (dmg < 0)
+    {
+        P.Health=-dmg;
+    }
+     else
+     {
+         cout << "you missed" << endl;
+     }
+
+}
+
+//--------------------------------------------------------------------------------------------------
+void combat(Person &P)
+{
+    
+    cout << "ENEMY ENCOUNTER!" <<endl;
+    enamy e;    
+    int monster = e.Health;
+
+
+while (monster < 0)
+{
+    if(P.Job == "wizard")
+    {
+       monster - Wizard();
+    }
+    if(P.Job == "Warrior")
+    {
+        monster - warrior();
+    }
+    if(P.Job == "Ranger")
+    {
+        monster - Ranger();
+    }   
+
+P.Health-=e.Str/(P.Level+1);
+cout << P.Health << endl;
+ 
+         
+    }
+ cout << "you have xp: " << P.XP << " now" <<endl;
+ P.XP +=2 ;
+
+}
+
+
+
+
+int main() {
+srand(time(NULL));
+bool continu = true;
+Person player= StartGame();
+string name;
+cout<<endl<<player.Health<<endl;
+while(continu)
+{
+    travel(name, player);
+    if(Random_Enconter())
+    {
+    
+    combat(player);
+    }
+if (player.XP == 10)
+    {
+        player.Level=+1;
+        player.XP = 0;
+        player.Health = player.Con * 2;
+        cout << "CONGRATES YOU LEVEL UP, YOU ARE NOW LVL : " << player.Level << endl << endl;
+        cout << "your stats now look like : " << player.Str << "-Str\n" << player.Dex << "-Dex\n" << player.Int << "-Int\n" << player.Chr << "-cha" << endl<< player.Con << "-Con" << endl<< player.Wis << "-Wis" << endl;
+    }
+
+
+
+if(player.Health < 1)
+{
+    break;
+}
+}
+
+    cout << "you dead" << endl;
+    system("PAUSE");
+    return 0;
+}
+
+
+
